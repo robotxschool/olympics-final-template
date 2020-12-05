@@ -44,11 +44,11 @@ class LfChallengeTaskSolution(TaskSolution):
 
             cropped_img = region_of_interest(rgb, np.array([region_vertices], np.int32), )
             hsv = cv2.cvtColor(cropped_img, cv2.COLOR_RGB2HSV)
-            w_lane_min = np.array((26, 0, 118), np.uint8)
-            w_lane_max = np.array((146, 32, 255), np.uint8)
+            w_lane_min = np.array((73, 9, 120), np.uint8)
+            w_lane_max = np.array((146, 70, 255), np.uint8)
 
-            y_lane_min = np.array((87, 74, 158), np.uint8)
-            y_lane_max = np.array((96, 255, 229), np.uint8)
+            y_lane_min = np.array((0, 0, 114), np.uint8)
+            y_lane_max = np.array((52, 116, 255), np.uint8)
 
             w_lane = cv2.inRange(hsv, w_lane_min, w_lane_max)
             y_lane = cv2.inRange(hsv, y_lane_min, y_lane_max)

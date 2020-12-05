@@ -118,26 +118,27 @@ class LfChallengeTaskSolution(TaskSolution):
                 angles = 0.0
                 for line in w_lines:
                     for x1, y1, x2, y2 in line:
-                        if (y2 > y1):
-                            tmpX = x1
-                            tmpY = y1
-                            x1 = x2
-                            y1 = y2
-                            x2 = tmpX
-                            y2 = tmpY
-                        dX = x2 - x1
-                        dY = y2 - y1
-                        mod = math.sqrt(dX ** 2 + dY ** 2)
-                        angle = math.degrees(math.acos(dX / mod))
-                        if y1 > height / 3 and x1 > width / 3:
-                            cv2.line(rgb, (x1, y1), (x2, y2), (255, 255, 0), thickness=2)
-                        w_line_pose_x1 = w_line_pose_x1 + x1
-                        w_line_pose_x2 = w_line_pose_x2 + x2
-                        w_line_pose_y1 = w_line_pose_y1 + y1
-                        w_line_pose_y2 = w_line_pose_y2 + y2
-                        angles += angle
-                        counter += 1
-                        # print ("white" ,line , angle)
+                        if x1>320:
+                            if (y2 > y1):
+                                tmpX = x1
+                                tmpY = y1
+                                x1 = x2
+                                y1 = y2
+                                x2 = tmpX
+                                y2 = tmpY
+                            dX = x2 - x1
+                            dY = y2 - y1
+                            mod = math.sqrt(dX ** 2 + dY ** 2)
+                            angle = math.degrees(math.acos(dX / mod))
+                            if y1 > height / 3 and x1 > width / 3:
+                                cv2.line(rgb, (x1, y1), (x2, y2), (255, 255, 0), thickness=2)
+                            w_line_pose_x1 = w_line_pose_x1 + x1
+                            w_line_pose_x2 = w_line_pose_x2 + x2
+                            w_line_pose_y1 = w_line_pose_y1 + y1
+                            w_line_pose_y2 = w_line_pose_y2 + y2
+                            angles += angle
+                            counter += 1
+                            # print ("white" ,line , angle)
                 w_angles = angles / counter
                 w_line_pose_x1 = int(w_line_pose_x1 / counter)
                 w_line_pose_x2 = int(w_line_pose_x2 / counter)
@@ -161,7 +162,7 @@ class LfChallengeTaskSolution(TaskSolution):
                 y_deviation = -80
 
             pose = -(w_deviation + y_deviation) / 1000
-            kP = 2.5  # основной коэффициент усиления поворота колес
+            kP = 3.5  # основной коэффициент усиления поворота колес
             if y_line_pose_y > 350 and y_angles < 30:
                 kP = 5  # коэффициент, если обнаружена желтая разметка почти горизонтально близко к роботу
             steering = kP * pose
@@ -176,7 +177,7 @@ class LfChallengeTaskSolution(TaskSolution):
                 steering = steering / len(average_pose)
             print("steering", steering)
             if -0.12 < steering < 0.12 and steering != 0:
-                vel = 0.65  # ускоряемся при движении прямо
+                vel = 0.35  # ускоряемся при движении прямо
                 steering = steering * 0.75  # и корректируем руль на большой скорости
             else:
                 vel = 0.2  # скорость во время поворота

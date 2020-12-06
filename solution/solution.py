@@ -162,11 +162,11 @@ class LfChallengeTaskSolution(TaskSolution):
                 y_deviation = -80
 
             pose = -(w_deviation + y_deviation) / 1000
-            kP = 6.5  # основной коэффициент усиления поворота колес
+            kP = 6  # основной коэффициент усиления поворота колес
             if y_line_pose_y > 350 and y_angles < 30:
-                kP = 8  # коэффициент, если обнаружена желтая разметка почти горизонтально близко к роботу
+                kP = 7.5  # коэффициент, если обнаружена желтая разметка почти горизонтально близко к роботу
             steering = kP * pose
-            if len(average_pose) < 7:  # количество элементов для вычисления среднего значения поворота руля
+            if len(average_pose) < 6:  # количество элементов для вычисления среднего значения поворота руля
                 average_pose.append(steering)
             else:
                 average_pose.pop(0)
@@ -180,6 +180,6 @@ class LfChallengeTaskSolution(TaskSolution):
                 vel = 0.25  # ускоряемся при движении прямо
                 steering = steering * 0.95  # и корректируем руль на большой скорости
             else:
-                vel = 0.15  # скорость во время поворота
+                vel = 0.17  # скорость во время поворота
             action = [vel, steering]
             env.render()
